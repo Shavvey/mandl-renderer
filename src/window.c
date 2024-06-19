@@ -1,3 +1,1 @@
-#include "sdl.h"
-
-void init_window() {}
+#include "window.h"
