@@ -3,8 +3,9 @@ CC=gcc
 FLAGS=-W -Wall -g
 # sdl flags and included libs
 SDL_CFLAGS := $(shell sdl2-config --cflags)
-SDL_LDFLAGS := $(shell sdl2-config --libs) -lm
+SDL_LDFLAGS := $(shell sdl2-config --libs)
 EXEC=mandl
+OBJS=src/main.o src/window.o src/complex.o
 
 # make dependencies to create the final executable
 all: mandl
@@ -18,8 +19,8 @@ main.o: src/main.c
 complex.o: src/complex.c src/complex.h
 	$(CC) $(CFLAGS) -c src/complex.c src/complex.h
 
-mandl: src/main.o src/window.o src/complex.o
-	$(CC) $(CFLAGS) $(SDL_CFLAGS) src/main.o src/window.o src/complex.o -o $(EXEC) $(SDL_LDFLAGS) 
+mandl: $(OBJS)
+	$(CC) $(CFLAGS) $(SDL_CFLAGS) $(OBJS) -o $(EXEC) $(SDL_LDFLAGS) -lm
 
 clean:
-	rm mandl src/main.o src/window.o
+	rm mandl src/*.o
