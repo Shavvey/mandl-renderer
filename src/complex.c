@@ -1,5 +1,6 @@
 #include "complex.h"
 
+// helper function to add two complex numbers
 Complex cmadd(Complex a, Complex b) {
   // just add respective real and imaginary parts of the two numbers
   Complex c = {.img = a.img + b.img, .real = a.real + b.real};
@@ -8,9 +9,9 @@ Complex cmadd(Complex a, Complex b) {
 
 // helper function to set help assign a reference
 // to a complex val
-void cmset(Complex *c, double real, double img) {
-  c->img = img;
-  c->real = real;
+void cmset(Complex *c, Complex n) {
+  c->img = n.img;
+  c->real = n.real;
 }
 
 // get the absolute val (often called z), it's just the pythagorean theorem
