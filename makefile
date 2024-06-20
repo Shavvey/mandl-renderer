@@ -13,7 +13,7 @@ window.o: src/window.c src/window.h
 	$(CC) $(CFLAGS)  -c src/window.c src/window.h
 
 main.o: src/main.c
-	$(CC) $(CFLAGS) -c src/main.c 
+	$(CC) $(CFLAGS) -c src/main.c  src/window.h
 	
 
 mandl: src/main.o src/window.o

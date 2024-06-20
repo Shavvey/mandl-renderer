@@ -1,7 +1,7 @@
 #include "window.h"
 
 int main(int argc, char *argv[]) {
-  // what the hell i am doing
-  printf("this is a print statement!\n");
+  SDL_Window *window = create_window("mandl renderer");
+  SDL_Context cxt = get_context(window);
   return EXIT_SUCCESS;
 }
