@@ -18,3 +18,6 @@ main.o: src/main.c
 
 mandl: src/main.o src/window.o
 	$(CC) $(CFLAGS) $(SDL_CFLAGS) src/main.o src/window.o -o $(EXEC) $(SDL_LDFLAGS) 
+
+clean:
+	rm mandl src/main.o src/window.o
