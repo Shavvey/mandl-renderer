@@ -13,7 +13,7 @@ typedef struct Complex_Point {
   bool in_set;
 } Complex_Point;
 
-Complex cadd(Complex a, Complex b);
-void cset(Complex *c, double real, double img);
-double cabs(Complex c);
+Complex cmadd(Complex a, Complex b);
+void cmset(Complex *c, double real, double img);
+double cmabs(Complex c);
 Complex csqr(Complex a);

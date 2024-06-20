@@ -1,14 +1,14 @@
 #include "complex.h"
 
-Complex cadd(Complex a, Complex b) {
+Complex cmadd(Complex a, Complex b) {
   // just add respective real and imaginary parts of the two numbers
   Complex c = {.img = a.img + b.img, .real = a.real + b.real};
   return c;
 }
 
-void cset(Complex *c, double real, double img) {
+void cmset(Complex *c, double real, double img) {
   c->img = img;
   c->real = real;
 }
 
-double cabs(Complex c) { return sqrt(c.real * c.real + c.img * c.img); }
+double cmabs(Complex c) { return sqrt(c.real * c.real + c.img * c.img); }
