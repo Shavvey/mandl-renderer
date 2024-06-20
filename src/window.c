@@ -28,3 +28,9 @@ SDL_Context get_context(SDL_Window *window) {
   SDL_Context cxt = {.renderer = renderer, .texture = texture};
   return cxt;
 }
+
+uint32_t *init_buffer() {
+  uint32_t *screen_buffer = malloc(sizeof(uint32_t) * DIM.width * DIM.height);
+  memset(screen_buffer, 0xFF, DIM.width * DIM.height * sizeof(uint32_t));
+  return screen_buffer;
+}
