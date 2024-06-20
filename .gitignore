@@ -1,2 +1,4 @@
 # ingore all object files
 *.o
+# ignoring the final executable
+mandl
