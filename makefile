@@ -14,10 +14,12 @@ window.o: src/window.c src/window.h
 
 main.o: src/main.c
 	$(CC) $(CFLAGS) -c src/main.c  src/window.h
-	
 
-mandl: src/main.o src/window.o
-	$(CC) $(CFLAGS) $(SDL_CFLAGS) src/main.o src/window.o -o $(EXEC) $(SDL_LDFLAGS) 
+complex.o: src/complex.c src/complex.h
+	$(CC) $(CFLAGS) -c src/complex.c src/complex.h
+
+mandl: src/main.o src/window.o src/complex.o
+	$(CC) $(CFLAGS) $(SDL_CFLAGS) src/main.o src/window.o src/complex.o -o $(EXEC) $(SDL_LDFLAGS) 
 
 clean:
 	rm mandl src/main.o src/window.o
