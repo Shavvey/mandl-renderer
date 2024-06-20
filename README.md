@@ -2,7 +2,7 @@
 
 # Description
 
-An attempt to render the mandelbrot set, just using SDL and the beautifully dangerous C programmnig language.
+An attempt to render the Mandelbrot set, just using SDL and the beautifully dangerous C programming language.
 
 # Building the Project
 

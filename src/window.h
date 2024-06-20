@@ -19,7 +19,7 @@ typedef struct Color {
   int green_bias;
 } Color;
 
-// external var needed for other files (such as complex.c)
+// external var needed for other files (such as complex.c and main.c)
 extern uint32_t *screen_buffer;
 extern SDL_Context cxt;
 
