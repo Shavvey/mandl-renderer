@@ -16,8 +16,8 @@ double lmap(double x, double input_start, double input_end, double output_start,
             double output_end) {
   if (input_end == input_start) {
 
-    printf("Error in l_map(), Cannot Map a value when input_end == "
-           "input_start! \n");
+    fprintf(stderr, "Error in l_map(), Cannot Map a value when input_end == "
+                    "input_start! \n");
     exit(EXIT_FAILURE);
 
   } else {
