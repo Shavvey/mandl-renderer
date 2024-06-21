@@ -61,11 +61,11 @@ uint32_t color_calc(double val, int red_bias, int green_bias, int blue_bias,
 // update the pixel buffer according to the new mandl set
 void update() {
   // imaginary coords of plot window
-  double istart = PLOT.start.img;
-  double iend = PLOT.end.img;
+  double istart = -1;
+  double iend = 1;
   // real coords of plot window
-  double rstart = PLOT.start.real;
-  double rend = PLOT.end.real;
+  double rstart = -2;
+  double rend = 1;
   double normalized_color = 0;
 
   for (int dx = 0; dx < DIM.width; dx++) {
