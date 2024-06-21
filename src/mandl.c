@@ -12,8 +12,8 @@ uint32_t mandl_iter(Complex c) {
   }
   return itrs;
 }
-double l_map(double x, double input_start, double input_end,
-             double output_start, double output_end) {
+double lmap(double x, double input_start, double input_end, double output_start,
+            double output_end) {
   if (input_end == input_start) {
 
     printf("Error in l_map(), Cannot Map a value when input_end == "
@@ -38,12 +38,12 @@ uint32_t color_calc(double val, int red_bias, int green_bias, int blue_bias,
   uint32_t green = 0;
   uint32_t blue = 0;
   uint32_t alpha = 0xFF;
-
-  red = ((int)l_map(val, 1, 0, 0, coef * red_bias))
-        << (6 * 4); // Starts as 0x000000FF
-  green = ((int)l_map(val, 1, 0, 0, coef * green_bias))
-          << (4 * 4); // Multiply by 4 to shift by half-bytes instead of bits
-  blue = ((int)l_map(val, 1, 0, 0, coef * blue_bias)) << (2 * 4);
+  // each hexadecimal digit represents a half-byte (4 bits)
+  red = ((int)lmap(val, 1, 0, 0, coef * red_bias))
+        << (6 * 4); // starts as 0x--FFFFFF
+  green = ((int)lmap(val, 1, 0, 0, coef * green_bias)) << (4 * 4); // 0xFF--FFFF
+  blue = ((int)lmap(val, 1, 0, 0, coef * blue_bias)) << (2 * 4);   // 0xFFFF--FF
+  // alpha won't be map to the number of iterations
   alpha = 0xFF;
 
   return (red + green + blue + alpha);
@@ -64,8 +64,8 @@ void update() {
       c.real = rstart + ((double)dx / DIM.width) * (rend - rstart);
       c.img = istart + ((double)dy / DIM.height) * (iend - istart);
       uint32_t itrs = mandl_iter(c);
-      normalized_color = l_map(itrs, 0, MAX_ITER, 0, 1);
-      uint32_t color = color_calc(normalized_color, 25, 25, 25, 25);
+      normalized_color = lmap(itrs, 0, MAX_ITER, 0, 1);
+      uint32_t color = color_calc(normalized_color, 50, 50, 50, 1);
       // RGBA
       screen_buffer[dx][dy] = color;
     }
