@@ -13,8 +13,10 @@
 
 // determines what points we sample to construct set
 typedef struct Plot_Window {
-  Complex start;
-  Complex end;
+  double r_start;
+  double r_end;
+  double i_start;
+  double i_end;
 } Plot_Window;
 
 typedef struct Color_Bias {

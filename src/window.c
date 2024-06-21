@@ -19,6 +19,7 @@ SDL_Window *create_window(const char *title) {
   window =
       SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                        DIM.width, DIM.height, SDL_WINDOW_SHOWN);
+  // check to see if window is created successfully
   if (window == NULL) {
     fprintf(stderr, "Window could not be created! Error: %s\n", SDL_GetError());
     exit(EXIT_FAILURE);
