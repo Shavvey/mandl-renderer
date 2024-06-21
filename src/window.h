@@ -20,8 +20,10 @@ typedef struct Color {
 } Color;
 
 // external var needed for other files (such as complex.c and main.c)
-extern uint32_t *screen_buffer;
+
 extern SDL_Context cxt;
+extern const Window_Dim DIM;
+extern uint32_t screen_buffer[WIDTH][HEIGHT];
 
 SDL_Window *create_window(const char *title);
 SDL_Context get_context(SDL_Window *window);

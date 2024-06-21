@@ -1,9 +1,10 @@
 #include "window.h"
+#include "mandl.h"
 #include <stdbool.h>
 #include <stdlib.h>
 
 const Window_Dim DIM = {.width = WIDTH, .height = HEIGHT};
-uint32_t *screen_buffer;
+uint32_t screen_buffer[WIDTH][HEIGHT] = {0xFF};
 SDL_Context cxt;
 bool window_exit = false;
 SDL_Event event;
@@ -53,7 +54,6 @@ void cleanup() {
     SDL_DestroyRenderer(cxt.renderer);
   }
   // free up screen buffer and quit out of window
-  free(screen_buffer);
   SDL_Quit();
 }
 
@@ -73,6 +73,7 @@ void handle_key() {
 }
 
 void animate() {
+  // update();
   while (!window_exit) {
     // update texture with the new mandlbrot set computed
     SDL_UpdateTexture(cxt.texture, NULL, screen_buffer,
