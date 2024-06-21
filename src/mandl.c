@@ -12,12 +12,14 @@ uint32_t mandl_iter(Complex c) {
   }
   return itrs;
 }
+// return a linear map of the change in both of the inputs
 double lmap(double x, double input_start, double input_end, double output_start,
             double output_end) {
   if (input_end == input_start) {
 
     fprintf(stderr, "Error in l_map(), Cannot Map a value when input_end == "
                     "input_start! \n");
+    // just exit of out the program if the lmap can't be completed
     exit(EXIT_FAILURE);
 
   } else {
@@ -26,6 +28,8 @@ double lmap(double x, double input_start, double input_end, double output_start,
     return output_start + slope * (x - input_start);
   }
 }
+// preforms the color calculation using the number iterations preformed on the
+// complex point
 uint32_t color_calc(double val, int red_bias, int green_bias, int blue_bias,
                     int coef) {
   // check normalized val should have a interval [0,1]
@@ -48,6 +52,7 @@ uint32_t color_calc(double val, int red_bias, int green_bias, int blue_bias,
 
   return (red + green + blue + alpha);
 }
+
 // update the pixel buffer according to the new mandl set
 void update() {
   // imaginary coords of plot window
