@@ -7,13 +7,6 @@ Complex cmadd(Complex a, Complex b) {
   return c;
 }
 
-// helper function to set help assign a reference
-// to a complex val
-void cmset(Complex *c, Complex n) {
-  c->img = n.img;
-  c->real = n.real;
-}
-
 // get the absolute val (often called z), it's just the pythagorean theorem
 double cmabs(Complex c) { return sqrt((c.real * c.real) + (c.img * c.img)); }
 

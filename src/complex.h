@@ -8,6 +8,5 @@ typedef struct Complex {
 } Complex;
 
 Complex cmadd(Complex a, Complex b);
-void cmset(Complex *c, Complex n);
 double cmabs(Complex c);
 Complex cmsqr(Complex c);
