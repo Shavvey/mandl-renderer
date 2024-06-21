@@ -73,7 +73,7 @@ void handle_key() {
 }
 
 void animate() {
-  // update();
+  update();
   while (!window_exit) {
     // update texture with the new mandlbrot set computed
     SDL_UpdateTexture(cxt.texture, NULL, screen_buffer,

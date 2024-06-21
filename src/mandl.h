@@ -17,7 +17,19 @@ typedef struct Plot_Window {
   Complex end;
 } Plot_Window;
 
+typedef struct Color_Bias {
+  int rb;
+  int gb;
+  int bb;
+  int coef;
+} Color_Bias;
+
 extern Plot_Window PLOT;
 
 uint32_t mandl_iter(Complex c);
 void update();
+double l_map(double x, double input_start, double input_end,
+             double output_start, double output_end);
+
+uint32_t color_calc(double val, int red_bias, int green_bias, int blue_bias,
+                    int coef);
