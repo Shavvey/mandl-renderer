@@ -8,4 +8,4 @@ An attempt to render the Mandelbrot set, just using SDL and the beautifully dang
 
 # Building the Project
 
-all that is required is `sdl` an `make` to compile the project
+all that is required is `sdl` and `make` to compile the project

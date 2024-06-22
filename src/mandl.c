@@ -12,6 +12,7 @@ uint32_t mandl_iter(Complex c) {
   }
   return itrs;
 }
+
 // return a linear map of the change in both of the inputs
 double lmap(double x, double input_start, double input_end, double output_start,
             double output_end) {
@@ -28,6 +29,7 @@ double lmap(double x, double input_start, double input_end, double output_start,
     return output_start + slope * (x - input_start);
   }
 }
+
 // preforms the color calculation using the number iterations preformed on the
 // complex point
 uint32_t color_calc(double val, int red_bias, int green_bias, int blue_bias,
