@@ -2,10 +2,10 @@
 #include <stdint.h>
 
 // describes the default start point when begining to render set
-#define RE_START -2
-#define RE_END 1
-#define IM_START -1
-#define IM_END 1
+#define DEF_RE_START -2
+#define DEF_RE_END 1
+#define DEF_IM_START -1
+#define DEF_IM_END 1
 
 // max number of iterations
 #define MAX_ITER 80
@@ -26,10 +26,8 @@ typedef struct Color_Bias {
   int coef;
 } Color_Bias;
 
-extern Plot_Window PLOT;
-
 uint32_t mandl_iter(Complex c);
-void update();
+void mandl_update(Plot_Window p_win);
 double lmap(double x, double input_start, double input_end, double output_start,
             double output_end);
 

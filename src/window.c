@@ -8,6 +8,11 @@ uint32_t screen_buffer[WIDTH][HEIGHT] = {0xFF};
 SDL_Context cxt;
 bool window_exit = false;
 SDL_Event event;
+// controls the window of the plotting region
+Plot_Window P_WIN = {.r_start = DEF_RE_START,
+                     .r_end = DEF_RE_END,
+                     .i_start = DEF_IM_START,
+                     .i_end = DEF_IM_END};
 
 SDL_Window *create_window(const char *title) {
   SDL_Window *window = NULL;
@@ -74,7 +79,7 @@ void handle_key() {
 }
 
 void animate() {
-  update();
+  mandl_update(P_WIN);
   while (!window_exit) {
     // update texture with the new mandlbrot set computed
     SDL_UpdateTexture(cxt.texture, NULL, screen_buffer,
