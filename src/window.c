@@ -13,7 +13,9 @@ int mouse_x, mouse_y;
 Plot_Window P_WIN = {.r_start = DEF_RE_START,
                      .r_end = DEF_RE_END,
                      .i_start = DEF_IM_START,
-                     .i_end = DEF_IM_END};
+                     .i_end = DEF_IM_END,
+                     .xoff = 0,
+                     .yoff = 0};
 
 SDL_Window *create_window(const char *title) {
   SDL_Window *window = NULL;
