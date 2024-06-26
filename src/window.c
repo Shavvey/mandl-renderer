@@ -8,6 +8,7 @@ uint32_t screen_buffer[WIDTH][HEIGHT] = {0xFF};
 SDL_Context cxt;
 bool window_exit = false;
 SDL_Event event;
+int mouse_x, mouse_y;
 // controls the window of the plotting region
 Plot_Window P_WIN = {.r_start = DEF_RE_START,
                      .r_end = DEF_RE_END,
@@ -63,7 +64,7 @@ void cleanup() {
   SDL_Quit();
 }
 
-void handle_key() {
+void handle_event() {
   switch (event.type) {
   case SDLK_ESCAPE:
     window_exit = true;
@@ -71,7 +72,11 @@ void handle_key() {
   case SDL_QUIT:
     window_exit = true;
     break;
-
+  case SDL_MOUSEBUTTONDOWN:
+    // get the mouse x and y
+    SDL_GetMouseState(&mouse_x, &mouse_y);
+    printf("Mouse x: %d\n Mouse y: %d\n", mouse_x, mouse_y);
+    break;
   default:
     // no nothing by default
     break;
@@ -85,9 +90,10 @@ void animate() {
     SDL_UpdateTexture(cxt.texture, NULL, screen_buffer,
                       DIM.width * sizeof(uint32_t));
 
-    if (SDL_PollEvent(&event)) {
+    while (SDL_PollEvent(&event)) {
+
       // handle any key press
-      handle_key();
+      handle_event();
     }
     // clear current render
     SDL_RenderClear(cxt.renderer);

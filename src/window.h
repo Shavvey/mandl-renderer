@@ -30,4 +30,4 @@ SDL_Context get_context(SDL_Window *window);
 uint32_t *init_buffer();
 void animate();
 void cleanup();
-void handle_key();
+void handle_event();
