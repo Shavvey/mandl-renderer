@@ -45,13 +45,6 @@ SDL_Context get_context(SDL_Window *window) {
   return cxt;
 }
 
-uint32_t *init_buffer() {
-  uint32_t *screen_buffer = malloc(sizeof(uint32_t) * DIM.width * DIM.height);
-  // set the buffer to the color white
-  memset(screen_buffer, 0xFF, DIM.width * DIM.height * sizeof(uint32_t));
-  return screen_buffer;
-}
-
 void cleanup() {
   // destroy SDL context (renderer and texture) if they exist
   if (cxt.texture) {
@@ -78,7 +71,6 @@ void handle_event() {
     // shift mouse coords so zero corresponds to center
     mouse_x -= (WIDTH / 2);
     mouse_y -= (HEIGHT / 2);
-    printf("Mouse x: %d\n Mouse y: %d\n", mouse_x, mouse_y);
     // starting coords by offset
     double xoff = ((double)mouse_x / WIDTH) * (P_WIN.i_end - P_WIN.i_start);
 
@@ -98,7 +90,12 @@ void handle_event() {
   }
 }
 
+void center(Plot_Window *p_win, int mouse_x, int mouse_y) {}
+
+void zoom(Plot_Window *p_win, int mouse_x, int mouse_y, int scalar) {}
+
 void animate() {
+  // create the mandelbrot set using default plot window P_WIN
   mandl_update(P_WIN);
   while (!window_exit) {
     // update texture with the new mandlbrot set computed

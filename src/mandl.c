@@ -1,5 +1,4 @@
 #include "mandl.h"
-#include "window.h"
 
 // iterate using complex point given, return total iterations
 uint32_t mandl_iter(Complex c) {

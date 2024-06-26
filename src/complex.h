@@ -1,3 +1,5 @@
+#ifndef COMPLEX_H
+#define COMPLEX_H
 #include <math.h>
 #include <stdbool.h>
 
@@ -10,3 +12,4 @@ typedef struct Complex {
 Complex cmadd(Complex a, Complex b);
 double cmabs(Complex c);
 Complex cmsqr(Complex c);
+#endif
