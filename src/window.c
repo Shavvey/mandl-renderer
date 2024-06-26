@@ -65,7 +65,6 @@ void cleanup() {
   // free up screen buffer and quit out of window
   SDL_Quit();
 }
-
 void handle_event() {
   switch (event.type) {
   case SDLK_ESCAPE:
@@ -75,9 +74,16 @@ void handle_event() {
     window_exit = true;
     break;
   case SDL_MOUSEBUTTONDOWN:
-    // get the mouse x and y
+    // get the mouse x and y (top left of screen is the origin)
     SDL_GetMouseState(&mouse_x, &mouse_y);
     printf("Mouse x: %d\n Mouse y: %d\n", mouse_x, mouse_y);
+    double yoff =
+        ((double)mouse_x / WIDTH) * fabs((P_WIN.r_end - P_WIN.r_start));
+    double xoff =
+        ((double)mouse_y / HEIGHT) * fabs((P_WIN.i_end - P_WIN.i_start));
+    P_WIN.xoff = xoff;
+    P_WIN.yoff = yoff;
+    mandl_update(P_WIN);
     break;
   default:
     // no nothing by default

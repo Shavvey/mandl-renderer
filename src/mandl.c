@@ -57,12 +57,12 @@ uint32_t color_calc(double val, int red_bias, int green_bias, int blue_bias,
 
 // update the pixel buffer according to the new mandl set
 void mandl_update(Plot_Window p_win) {
-  // imaginary coords of plot window
-  double istart = p_win.i_start;
-  double iend = p_win.i_end;
+  // extract imaginary coords of plot window
+  double istart = p_win.i_start + p_win.yoff;
+  double iend = p_win.i_end + p_win.yoff;
   // real coords of plot window
-  double rstart = p_win.r_start;
-  double rend = p_win.r_end;
+  double rstart = p_win.r_start + p_win.xoff;
+  double rend = p_win.r_end + p_win.xoff;
   double normalized_color = 0;
 
   for (int dx = 0; dx < DIM.width; dx++) {
