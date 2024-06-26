@@ -80,9 +80,9 @@ void handle_event() {
     mouse_y -= (HEIGHT / 2);
     printf("Mouse x: %d\n Mouse y: %d\n", mouse_x, mouse_y);
     // starting coords by offset
-    double xoff = ((double)mouse_x / WIDTH) * (P_WIN.r_end - P_WIN.r_start);
+    double xoff = ((double)mouse_x / WIDTH) * (P_WIN.i_end - P_WIN.i_start);
 
-    double yoff = ((double)mouse_y / HEIGHT) * (P_WIN.i_end - P_WIN.i_start);
+    double yoff = ((double)mouse_y / HEIGHT) * (P_WIN.r_end - P_WIN.r_start);
     // use offset to change plot window coords
     // NOTE: imaginary coords are on the x-axis here
     P_WIN.r_start += yoff;

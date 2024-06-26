@@ -65,19 +65,19 @@ void mandl_update(Plot_Window p_win) {
   double rend = p_win.r_end;
   double normalized_color = 0;
 
-  for (int dx = 0; dx < DIM.width; dx++) {
-    for (int dy = 0; dy < DIM.height; dy++) {
+  for (int dy = 0; dy < DIM.height; dy++) {
+    for (int dx = 0; dx < DIM.width; dx++) {
       Complex c;
       // convert pixel coordinates into the complex plot coordinates
-      c.real = rstart + ((double)dx / DIM.width) * (rend - rstart);
-      c.img = istart + ((double)dy / DIM.height) * (iend - istart);
+      c.real = rstart + ((double)dy / DIM.height) * (rend - rstart);
+      c.img = istart + ((double)dx / DIM.width) * (iend - istart);
       uint32_t itrs = mandl_iter(c);
       normalized_color = lmap(itrs, 0, MAX_ITER, 0, 1);
       uint32_t color = color_calc(normalized_color, 50, 50, 50, 1);
       // use RGBA color calculated via the linear mapping between iterations and
       // color strength (darker colors for converge points (ones inside the set)
       // and lighter colors for diverging points (ones not inside the set))
-      screen_buffer[dx][dy] = color;
+      screen_buffer[dy][dx] = color;
     }
   }
 }
