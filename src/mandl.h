@@ -17,8 +17,6 @@ typedef struct Plot_Window {
   double r_end;
   double i_start;
   double i_end;
-  double xoff;
-  double yoff;
 } Plot_Window;
 
 typedef struct Color_Bias {

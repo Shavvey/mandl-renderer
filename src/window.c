@@ -13,9 +13,7 @@ int mouse_x, mouse_y;
 Plot_Window P_WIN = {.r_start = DEF_RE_START,
                      .r_end = DEF_RE_END,
                      .i_start = DEF_IM_START,
-                     .i_end = DEF_IM_END,
-                     .xoff = 0,
-                     .yoff = 0};
+                     .i_end = DEF_IM_END};
 
 SDL_Window *create_window(const char *title) {
   SDL_Window *window = NULL;
@@ -65,6 +63,7 @@ void cleanup() {
   // free up screen buffer and quit out of window
   SDL_Quit();
 }
+
 void handle_event() {
   switch (event.type) {
   case SDLK_ESCAPE:
@@ -76,13 +75,21 @@ void handle_event() {
   case SDL_MOUSEBUTTONDOWN:
     // get the mouse x and y (top left of screen is the origin)
     SDL_GetMouseState(&mouse_x, &mouse_y);
+    // shift mouse coords so zero corresponds to center
+    mouse_x -= (WIDTH / 2);
+    mouse_y -= (HEIGHT / 2);
     printf("Mouse x: %d\n Mouse y: %d\n", mouse_x, mouse_y);
-    double yoff =
-        ((double)mouse_x / WIDTH) * fabs((P_WIN.r_end - P_WIN.r_start));
-    double xoff =
-        ((double)mouse_y / HEIGHT) * fabs((P_WIN.i_end - P_WIN.i_start));
-    P_WIN.xoff = xoff;
-    P_WIN.yoff = yoff;
+    // starting coords by offset
+    double xoff = ((double)mouse_x / WIDTH) * (P_WIN.r_end - P_WIN.r_start);
+
+    double yoff = ((double)mouse_y / HEIGHT) * (P_WIN.i_end - P_WIN.i_start);
+    // use offset to change plot window coords
+    // NOTE: imaginary coords are on the x-axis here
+    P_WIN.r_start += yoff;
+    P_WIN.r_end += yoff;
+    P_WIN.i_start += xoff;
+    P_WIN.i_end += xoff;
+    // update using new plot window
     mandl_update(P_WIN);
     break;
   default:
