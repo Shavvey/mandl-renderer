@@ -8,7 +8,6 @@ uint32_t screen_buffer[WIDTH][HEIGHT] = {0xFF};
 SDL_Context cxt;
 bool window_exit = false;
 SDL_Event event;
-SDL_KeyboardEvent key;
 int mouse_x, mouse_y;
 #define ZOOMFAC 0.7
 // controls the window of the plotting region
@@ -35,6 +34,7 @@ SDL_Window *create_window(const char *title) {
   return window;
 }
 
+// context just stores the current renderer and texturer
 SDL_Context get_context(SDL_Window *window) {
   // create renderer from window
   SDL_Renderer *renderer = SDL_CreateRenderer(
@@ -60,7 +60,6 @@ void cleanup() {
 }
 
 void handle_event() {
-  Uint8 const *key_states = SDL_GetKeyboardState(NULL);
   switch (event.type) {
   case SDL_QUIT:
     window_exit = true;
@@ -71,17 +70,20 @@ void handle_event() {
     center(&P_WIN, mouse_x, mouse_y);
     // update using new plot window
     mandl_update(P_WIN);
-    printf("Centering..\n");
+    // printf("Centering..\n");
     break;
+
   // if a key has been pressed down handle that key
   case SDL_KEYDOWN:
+
     switch (event.key.keysym.sym) {
     case SDLK_z:
-      printf("Zooming..\n");
+      // printf("Zooming..\n");
       zoom(&P_WIN, mouse_x, mouse_y, ZOOMFAC);
       mandl_update(P_WIN);
       break;
     }
+
     break;
   default:
     // no nothing by default
