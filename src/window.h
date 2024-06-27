@@ -42,5 +42,5 @@ void animate();
 void cleanup();
 void handle_event();
 void center(Plot_Window *p_win, int mouse_x, int mouse_y);
-void zoom(Plot_Window *p_win, int mouse_x, int mouse_y, int scalar);
+void zoom(Plot_Window *p_win, int mouse_x, int mouse_y, double scalar);
 #endif

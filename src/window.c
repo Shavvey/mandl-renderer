@@ -8,7 +8,9 @@ uint32_t screen_buffer[WIDTH][HEIGHT] = {0xFF};
 SDL_Context cxt;
 bool window_exit = false;
 SDL_Event event;
+SDL_KeyboardEvent key;
 int mouse_x, mouse_y;
+#define ZOOMFAC 0.7
 // controls the window of the plotting region
 Plot_Window P_WIN = {.r_start = DEF_RE_START,
                      .r_end = DEF_RE_END,
@@ -58,31 +60,28 @@ void cleanup() {
 }
 
 void handle_event() {
+  Uint8 const *key_states = SDL_GetKeyboardState(NULL);
   switch (event.type) {
-  case SDLK_ESCAPE:
-    window_exit = true;
-    break;
   case SDL_QUIT:
     window_exit = true;
     break;
   case SDL_MOUSEBUTTONDOWN:
     // get the mouse x and y (top left of screen is the origin)
     SDL_GetMouseState(&mouse_x, &mouse_y);
-    // shift mouse coords so zero corresponds to center
-    mouse_x -= (WIDTH / 2);
-    mouse_y -= (HEIGHT / 2);
-    // starting coords by offset
-    double xoff = ((double)mouse_x / WIDTH) * (P_WIN.i_end - P_WIN.i_start);
-
-    double yoff = ((double)mouse_y / HEIGHT) * (P_WIN.r_end - P_WIN.r_start);
-    // use offset to change plot window coords
-    // NOTE: imaginary coords are on the x-axis here
-    P_WIN.r_start += yoff;
-    P_WIN.r_end += yoff;
-    P_WIN.i_start += xoff;
-    P_WIN.i_end += xoff;
+    center(&P_WIN, mouse_x, mouse_y);
     // update using new plot window
     mandl_update(P_WIN);
+    printf("Centering..\n");
+    break;
+  // if a key has been pressed down handle that key
+  case SDL_KEYDOWN:
+    switch (event.key.keysym.sym) {
+    case SDLK_z:
+      printf("Zooming..\n");
+      zoom(&P_WIN, mouse_x, mouse_y, ZOOMFAC);
+      mandl_update(P_WIN);
+      break;
+    }
     break;
   default:
     // no nothing by default
@@ -90,9 +89,28 @@ void handle_event() {
   }
 }
 
-void center(Plot_Window *p_win, int mouse_x, int mouse_y) {}
+void center(Plot_Window *p_win, int mouse_x, int mouse_y) {
+  // shift mouse coords so zero corresponds to center
+  mouse_x -= (WIDTH / 2);
+  mouse_y -= (HEIGHT / 2);
+  // get offset in terms of the complex plotting coordinates
+  double xoff = ((double)mouse_x / WIDTH) * (P_WIN.i_end - P_WIN.i_start);
+  double yoff = ((double)mouse_y / HEIGHT) * (P_WIN.r_end - P_WIN.r_start);
+  // use offset to shift plotting coordinates
+  p_win->r_start += yoff;
+  p_win->r_end += yoff;
+  p_win->i_end += xoff;
+  p_win->i_start += xoff;
+}
 
-void zoom(Plot_Window *p_win, int mouse_x, int mouse_y, int scalar) {}
+void zoom(Plot_Window *p_win, int mouse_x, int mouse_y, double scalar) {
+  center(p_win, mouse_x, mouse_x);
+  // scale the plot window via the scalar
+  p_win->r_start *= scalar;
+  p_win->r_end *= scalar;
+  p_win->i_end *= scalar;
+  p_win->i_start *= scalar;
+}
 
 void animate() {
   // create the mandelbrot set using default plot window P_WIN
@@ -103,8 +121,6 @@ void animate() {
                       DIM.width * sizeof(uint32_t));
 
     while (SDL_PollEvent(&event)) {
-
-      // handle any key press
       handle_event();
     }
     // clear current render
