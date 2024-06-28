@@ -2,7 +2,7 @@
 #include "mandl.h"
 #include <stdbool.h>
 #include <stdlib.h>
-
+// window dimensions of the screen
 const Window_Dim DIM = {.width = WIDTH, .height = HEIGHT};
 uint32_t screen_buffer[WIDTH][HEIGHT] = {0xFF};
 SDL_Context cxt;
@@ -11,10 +11,10 @@ SDL_Event event;
 int mouse_x, mouse_y;
 #define ZOOMFAC 0.7
 // controls the window of the plotting region
-Plot_Window P_WIN = {.r_start = DEF_RE_START,
-                     .r_end = DEF_RE_END,
-                     .i_start = DEF_IM_START,
-                     .i_end = DEF_IM_END};
+Plot_Window plot_window = {.r_start = DEF_RE_START,
+                           .r_end = DEF_RE_END,
+                           .i_start = DEF_IM_START,
+                           .i_end = DEF_IM_END};
 
 SDL_Window *create_window(const char *title) {
   SDL_Window *window = NULL;
@@ -67,9 +67,9 @@ void handle_event() {
   case SDL_MOUSEBUTTONDOWN:
     // get the mouse x and y (top left of screen is the origin)
     SDL_GetMouseState(&mouse_x, &mouse_y);
-    center(&P_WIN, mouse_x, mouse_y);
+    center(&plot_window, mouse_x, mouse_y);
     // update using new plot window
-    mandl_update(P_WIN);
+    mandl_update(plot_window);
     // printf("Centering..\n");
     break;
 
@@ -79,8 +79,8 @@ void handle_event() {
     switch (event.key.keysym.sym) {
     case SDLK_z:
       // printf("Zooming..\n");
-      zoom(&P_WIN, mouse_x, mouse_y, ZOOMFAC);
-      mandl_update(P_WIN);
+      zoom(&plot_window, mouse_x, mouse_y, ZOOMFAC);
+      mandl_update(plot_window);
       break;
     }
 
@@ -96,8 +96,8 @@ void center(Plot_Window *p_win, int mouse_x, int mouse_y) {
   mouse_x -= (WIDTH / 2);
   mouse_y -= (HEIGHT / 2);
   // get offset in terms of the complex plotting coordinates
-  double xoff = ((double)mouse_x / WIDTH) * (P_WIN.i_end - P_WIN.i_start);
-  double yoff = ((double)mouse_y / HEIGHT) * (P_WIN.r_end - P_WIN.r_start);
+  double xoff = ((double)mouse_x / WIDTH) * (p_win->i_end - p_win->i_start);
+  double yoff = ((double)mouse_y / HEIGHT) * (p_win->r_end - p_win->r_start);
   // use offset to shift plotting coordinates
   p_win->r_start += yoff;
   p_win->r_end += yoff;
@@ -116,7 +116,7 @@ void zoom(Plot_Window *p_win, int mouse_x, int mouse_y, double scalar) {
 
 void animate() {
   // create the mandelbrot set using default plot window P_WIN
-  mandl_update(P_WIN);
+  mandl_update(plot_window);
   while (!window_exit) {
     // update texture with the new mandlbrot set computed
     SDL_UpdateTexture(cxt.texture, NULL, screen_buffer,
