@@ -5,7 +5,7 @@
 #include <stdlib.h>
 // window dimensions of the screen
 const Window_Dim DIM = {.width = WIDTH, .height = HEIGHT};
-uint32_t screen_buffer[WIDTH][HEIGHT] = {0xFFFFFFFF};
+uint32_t *screen_buffer;
 SDL_Context cxt;
 bool window_exit = false;
 SDL_Event event;
@@ -46,6 +46,13 @@ SDL_Context get_context(SDL_Window *window) {
                          renderer, SDL_PIXELFORMAT_RGBA8888,
                          SDL_TEXTUREACCESS_STREAMING, DIM.width, DIM.height)};
   return cxt;
+}
+
+void init_screen() {
+  screen_buffer = (uint32_t *)malloc(sizeof(uint32_t) * WIDTH * HEIGHT);
+
+  // Initializes Pixel Values to White
+  memset(screen_buffer, 0xFFFFFFFF, WIDTH * HEIGHT * sizeof(uint32_t));
 }
 
 void cleanup() {
@@ -116,6 +123,7 @@ void zoom(Plot_Window *p_win, int mouse_x, int mouse_y, double scalar) {
 }
 
 void animate() {
+  init_threads();
   th_update();
   // create the mandelbrot set using default plot window P_WIN
   while (!window_exit) {

@@ -1,13 +1,18 @@
 #include "thread.h"
 // threads to preform the mandelbrot set update
-Worker_Thread threads[NTHREADS];
+Worker_Thread *threads;
+
+void init_threads() {
+  threads = (Worker_Thread *)malloc(sizeof(Worker_Thread) * NTHREADS);
+}
 
 void th_update() {
   int unsigned id = 0;
   th_args args;
   for (int i = 0; i < NTHREADS; i++) {
+    printf("updating threads %d\n", i);
     threads[i].args.id = id;
-    threads[i].args.screen_buffer = &screen_buffer;
+    threads[i].args.screen_buffer = screen_buffer;
     // spawn new thread, pass the new id
     int ret = pthread_create(&threads[i].thread, (pthread_attr_t *)NULL,
                              (void *(*)(void *))th_mandl_update,
@@ -19,6 +24,7 @@ void th_update() {
       // kill the thread
       pthread_exit((void *)EXIT_FAILURE);
     }
+    // pthread_join(threads[i].thread, NULL);
   }
 }
 
@@ -36,10 +42,8 @@ void th_mandl_update(void *args) {
   }
   // preform the actual mandelbrot set update
   int dy = (DIM.height / NTHREADS) * th_id;
-  int end_y = (DIM.height / NTHREADS) * (th_id + 1) - 1;
+  int end_y = (DIM.height / NTHREADS) * (th_id + 1);
 
-  int dx = (DIM.width / NTHREADS) * th_id;
-  int end_x = (DIM.width / NTHREADS) * (th_id + 1) - 1;
   // extract imaginary coords of plot window
   double istart = plot_window.i_start;
   double iend = plot_window.i_end;
@@ -49,7 +53,7 @@ void th_mandl_update(void *args) {
   double normalized_color = 0;
 
   for (; dy < end_y; dy++) {
-    for (; dx < end_x; dx++) {
+    for (int dx = 0; dx < DIM.width; dx++) {
       Complex c;
       // convert pixel coordinates into the complex plot coordinates
       c.real = rstart + ((double)dy / DIM.height) * (rend - rstart);
@@ -60,7 +64,7 @@ void th_mandl_update(void *args) {
       // use RGBA color calculated via the linear mapping between iterations and
       // color strength (darker colors for converge points (ones inside the set)
       // and lighter colors for diverging points (ones not inside the set))
-      (*argp->screen_buffer)[dy][dx] = color;
+      argp->screen_buffer[dy * WIDTH + dx] = color;
     }
   }
   printf("thread ID: %d finished\n", th_id);

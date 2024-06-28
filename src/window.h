@@ -35,7 +35,7 @@ typedef struct Color {
 extern SDL_Context cxt;
 extern const Window_Dim DIM;
 extern Plot_Window plot_window;
-extern uint32_t screen_buffer[WIDTH][HEIGHT];
+extern uint32_t *screen_buffer;
 
 SDL_Window *create_window(const char *title);
 SDL_Context get_context(SDL_Window *window);
@@ -44,4 +44,5 @@ void cleanup();
 void handle_event();
 void center(Plot_Window *p_win, int mouse_x, int mouse_y);
 void zoom(Plot_Window *p_win, int mouse_x, int mouse_y, double scalar);
+void init_screen();
 #endif

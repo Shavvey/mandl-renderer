@@ -76,7 +76,7 @@ void mandl_update(Plot_Window p_win) {
       // use RGBA color calculated via the linear mapping between iterations and
       // color strength (darker colors for converge points (ones inside the set)
       // and lighter colors for diverging points (ones not inside the set))
-      screen_buffer[dy][dx] = color;
+      screen_buffer[dy * WIDTH + dx] = color;
     }
   }
 }
