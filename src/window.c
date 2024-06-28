@@ -64,7 +64,7 @@ void cleanup() {
     SDL_DestroyRenderer(cxt.renderer);
   }
   free(screen_buffer);
-  // free up screen buffer and quit out of window
+  free(threads);
   SDL_Quit();
 }
 

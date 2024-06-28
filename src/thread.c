@@ -1,7 +1,7 @@
 #include "thread.h"
 // threads to preform the mandelbrot set update
 Worker_Thread *threads;
-
+// make threads using malloc
 void init_threads() {
   threads = (Worker_Thread *)malloc(sizeof(Worker_Thread) * NTHREADS);
 }
@@ -10,13 +10,11 @@ void th_update() {
   int unsigned id = 0;
   th_args args;
   for (int i = 0; i < NTHREADS; i++) {
-    printf("updating threads %d\n", i);
     threads[i].args.id = id;
     threads[i].args.screen_buffer = screen_buffer;
     // spawn new thread, pass the new id
     int ret = pthread_create(&threads[i].thread, (pthread_attr_t *)NULL,
-                             (void *(*)(void *))th_mandl_update,
-                             (void *)&threads[i].args);
+                             (void *)th_mandl_update, (void *)&threads[i].args);
     id++;
     if (ret != 0) {
       fprintf(stderr, "Failed to create worker thread with id %d\n",
@@ -36,13 +34,12 @@ void th_mandl_update(void *args) {
   th_args *argp;
   uint32_t *screen_buffer;
   argp = (th_args *)args;
-  // extract the thread id
+  // extract the thread args
   if (argp != NULL) {
     th_id = argp->id;
     screen_buffer = argp->screen_buffer;
-    printf("thread ID: %d\n", th_id);
   } else {
-    fprintf(stderr, "Could not extract args.. Exiting program\n");
+    fprintf(stderr, "Could not extract thread args.. Exiting program\n");
     pthread_exit((void *)EXIT_FAILURE);
   }
   // preform the actual mandelbrot set update
@@ -72,7 +69,6 @@ void th_mandl_update(void *args) {
       screen_buffer[dy * WIDTH + dx] = color;
     }
   }
-  printf("thread ID: %d finished\n", th_id);
   // close out of thread
   pthread_exit((void *)EXIT_SUCCESS);
 }
