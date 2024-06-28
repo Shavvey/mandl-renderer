@@ -63,6 +63,7 @@ void cleanup() {
   if (cxt.renderer) {
     SDL_DestroyRenderer(cxt.renderer);
   }
+  free(screen_buffer);
   // free up screen buffer and quit out of window
   SDL_Quit();
 }
@@ -77,8 +78,7 @@ void handle_event() {
     SDL_GetMouseState(&mouse_x, &mouse_y);
     center(&plot_window, mouse_x, mouse_y);
     // update using new plot window
-    mandl_update(plot_window);
-    // printf("Centering..\n");
+    th_update();
     break;
 
   // if a key has been pressed down handle that key
@@ -88,7 +88,7 @@ void handle_event() {
     case SDLK_z:
       // printf("Zooming..\n");
       zoom(&plot_window, mouse_x, mouse_y, ZOOMFAC);
-      mandl_update(plot_window);
+      th_update();
       break;
     }
 

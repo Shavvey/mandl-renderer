@@ -24,17 +24,22 @@ void th_update() {
       // kill the thread
       pthread_exit((void *)EXIT_FAILURE);
     }
-    // pthread_join(threads[i].thread, NULL);
+  }
+
+  for (int i = 0; i < NTHREADS; i++) {
+    pthread_join(threads[i].thread, NULL);
   }
 }
 
 void th_mandl_update(void *args) {
   unsigned int th_id;
   th_args *argp;
+  uint32_t *screen_buffer;
   argp = (th_args *)args;
   // extract the thread id
   if (argp != NULL) {
     th_id = argp->id;
+    screen_buffer = argp->screen_buffer;
     printf("thread ID: %d\n", th_id);
   } else {
     fprintf(stderr, "Could not extract args.. Exiting program\n");
@@ -64,7 +69,7 @@ void th_mandl_update(void *args) {
       // use RGBA color calculated via the linear mapping between iterations and
       // color strength (darker colors for converge points (ones inside the set)
       // and lighter colors for diverging points (ones not inside the set))
-      argp->screen_buffer[dy * WIDTH + dx] = color;
+      screen_buffer[dy * WIDTH + dx] = color;
     }
   }
   printf("thread ID: %d finished\n", th_id);
