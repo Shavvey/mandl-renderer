@@ -6,8 +6,8 @@ SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
 # executable name, object files to be created, and dependencies for object files
 EXEC=mandl
-OBJS=src/main.o src/window.o src/complex.o src/mandl.o
-DEPS=src/window.h src/complex.h src/mandl.h
+OBJS=src/main.o src/window.o src/complex.o src/mandl.o src/thread.o
+DEPS=src/window.h src/complex.h src/mandl.h src/thread.h
 
 # make dependencies to create the final executable
 all: mandl

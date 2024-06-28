@@ -34,6 +34,7 @@ typedef struct Color {
 
 extern SDL_Context cxt;
 extern const Window_Dim DIM;
+extern Plot_Window plot_window;
 extern uint32_t screen_buffer[WIDTH][HEIGHT];
 
 SDL_Window *create_window(const char *title);

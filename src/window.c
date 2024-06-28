@@ -1,10 +1,11 @@
 #include "window.h"
 #include "mandl.h"
+#include "thread.h"
 #include <stdbool.h>
 #include <stdlib.h>
 // window dimensions of the screen
 const Window_Dim DIM = {.width = WIDTH, .height = HEIGHT};
-uint32_t screen_buffer[WIDTH][HEIGHT] = {0xFF};
+uint32_t screen_buffer[WIDTH][HEIGHT] = {0xFFFFFFFF};
 SDL_Context cxt;
 bool window_exit = false;
 SDL_Event event;
@@ -115,8 +116,8 @@ void zoom(Plot_Window *p_win, int mouse_x, int mouse_y, double scalar) {
 }
 
 void animate() {
+  th_update();
   // create the mandelbrot set using default plot window P_WIN
-  mandl_update(plot_window);
   while (!window_exit) {
     // update texture with the new mandlbrot set computed
     SDL_UpdateTexture(cxt.texture, NULL, screen_buffer,
