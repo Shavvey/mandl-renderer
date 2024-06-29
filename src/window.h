@@ -23,12 +23,12 @@ typedef struct Plot_Window {
   double i_end;
 } Plot_Window;
 
-typedef struct Color {
+typedef struct Color_Palette {
   int red_bias;
   int blue_bias;
   int green_bias;
   int contrast;
-} Color;
+} Color_Palette;
 
 // external var needed for other files (such as complex.c and main.c)
 
@@ -36,6 +36,7 @@ extern SDL_Context cxt;
 extern const Window_Dim DIM;
 extern Plot_Window plot_window;
 extern uint32_t *screen_buffer;
+extern Color_Palette palette;
 
 SDL_Window *create_window(const char *title);
 SDL_Context get_context(SDL_Window *window);

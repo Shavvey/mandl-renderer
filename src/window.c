@@ -5,7 +5,9 @@
 #include <stdlib.h>
 // window dimensions of the screen
 const Window_Dim DIM = {.width = WIDTH, .height = HEIGHT};
+// buffer to create texture and renderer for each frame
 uint32_t *screen_buffer;
+// sdl context just stores the renderer and texturer used in each frame
 SDL_Context cxt;
 bool window_exit = false;
 SDL_Event event;
@@ -16,6 +18,8 @@ Plot_Window plot_window = {.r_start = DEF_RE_START,
                            .r_end = DEF_RE_END,
                            .i_start = DEF_IM_START,
                            .i_end = DEF_IM_END};
+Color_Palette palette = {
+    .red_bias = 50, .green_bias = 50, .blue_bias = 50, .contrast = 1};
 
 SDL_Window *create_window(const char *title) {
   SDL_Window *window = NULL;
@@ -50,8 +54,7 @@ SDL_Context get_context(SDL_Window *window) {
 
 void init_screen() {
   screen_buffer = (uint32_t *)malloc(sizeof(uint32_t) * WIDTH * HEIGHT);
-
-  // Initializes Pixel Values to White
+  // initializing each pixel stored in the buffer to be white
   memset(screen_buffer, 0xFFFFFFFF, WIDTH * HEIGHT * sizeof(uint32_t));
 }
 

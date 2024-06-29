@@ -31,8 +31,8 @@ double lmap(double x, double input_start, double input_end, double output_start,
 
 // preforms the color calculation using the number iterations preformed on the
 // complex point
-uint32_t color_calc(double val, int red_bias, int green_bias, int blue_bias,
-                    int coef) {
+
+uint32_t color_calc(double val, Color_Palette palette) {
   // check normalized val should have a interval [0,1]
   if ((val < 0.0) | (val > 1.0)) {
     fprintf(stderr, "Error calcuating color val: should be normalized!\n");
@@ -44,10 +44,12 @@ uint32_t color_calc(double val, int red_bias, int green_bias, int blue_bias,
   uint32_t blue = 0;
   uint32_t alpha = 0xFF;
   // each hexadecimal digit represents a half-byte (4 bits)
-  red = ((int)lmap(val, 1, 0, 0, coef * red_bias))
+  red = ((int)lmap(val, 1, 0, 0, palette.contrast * palette.red_bias))
         << (6 * 4); // starts as 0x--FFFFFF
-  green = ((int)lmap(val, 1, 0, 0, coef * green_bias)) << (4 * 4); // 0xFF--FFFF
-  blue = ((int)lmap(val, 1, 0, 0, coef * blue_bias)) << (2 * 4);   // 0xFFFF--FF
+  green = ((int)lmap(val, 1, 0, 0, palette.contrast * palette.green_bias))
+          << (4 * 4); // 0xFF--FFFF
+  blue = ((int)lmap(val, 1, 0, 0, palette.contrast * palette.blue_bias))
+         << (2 * 4); // 0xFFFF--FF
   // alpha won't be map to the number of iterations
   alpha = 0xFF;
 
@@ -55,7 +57,7 @@ uint32_t color_calc(double val, int red_bias, int green_bias, int blue_bias,
 }
 
 // update the pixel buffer according to the new mandl set
-void mandl_update(Plot_Window p_win) {
+void mandl_update(Plot_Window p_win, Color_Palette palette) {
   // extract imaginary coords of plot window
   double istart = p_win.i_start;
   double iend = p_win.i_end;
@@ -72,7 +74,7 @@ void mandl_update(Plot_Window p_win) {
       c.img = istart + ((double)dx / DIM.width) * (iend - istart);
       uint32_t itrs = mandl_iter(c);
       normalized_color = lmap(itrs, 0, MAX_ITER, 0, 1);
-      uint32_t color = color_calc(normalized_color, 50, 50, 50, 1);
+      uint32_t color = color_calc(normalized_color, palette);
       // use RGBA color calculated via the linear mapping between iterations and
       // color strength (darker colors for converge points (ones inside the set)
       // and lighter colors for diverging points (ones not inside the set))

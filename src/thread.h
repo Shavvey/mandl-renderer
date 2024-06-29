@@ -18,6 +18,6 @@ typedef struct Worker_Thread {
 void th_update();
 void th_mandl_update(void *args);
 void init_threads();
-
+// arrays of threads stored on the heap
 extern Worker_Thread *threads;
 #endif // INCLUDE_SRC_THREAD_H_

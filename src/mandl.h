@@ -22,10 +22,9 @@ typedef struct Color_Bias {
 } Color_Bias;
 
 uint32_t mandl_iter(Complex c);
-void mandl_update(Plot_Window p_win);
+void mandl_update(Plot_Window p_win, Color_Palette palette);
 double lmap(double x, double input_start, double input_end, double output_start,
             double output_end);
 
-uint32_t color_calc(double val, int red_bias, int green_bias, int blue_bias,
-                    int coef);
+uint32_t color_calc(double val, Color_Palette palette);
 #endif // !MANDL_H

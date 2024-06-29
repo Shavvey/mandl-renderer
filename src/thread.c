@@ -24,6 +24,7 @@ void th_update() {
     }
   }
 
+  // join the threads after finishing their th_mandl_update() call
   for (int i = 0; i < NTHREADS; i++) {
     pthread_join(threads[i].thread, NULL);
   }
@@ -53,7 +54,8 @@ void th_mandl_update(void *args) {
   double rstart = plot_window.r_start;
   double rend = plot_window.r_end;
   double normalized_color = 0;
-
+  // partition screen buffer into the smaller and smaller horizontal "strips"
+  // based on the thread count
   for (; dy < end_y; dy++) {
     for (int dx = 0; dx < DIM.width; dx++) {
       Complex c;
@@ -62,7 +64,7 @@ void th_mandl_update(void *args) {
       c.img = istart + ((double)dx / DIM.width) * (iend - istart);
       uint32_t itrs = mandl_iter(c);
       normalized_color = lmap(itrs, 0, MAX_ITER, 0, 1);
-      uint32_t color = color_calc(normalized_color, 50, 50, 50, 1);
+      uint32_t color = color_calc(normalized_color, palette);
       // use RGBA color calculated via the linear mapping between iterations and
       // color strength (darker colors for converge points (ones inside the set)
       // and lighter colors for diverging points (ones not inside the set))
