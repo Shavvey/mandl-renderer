@@ -18,6 +18,7 @@ Plot_Window plot_window = {.r_start = DEF_RE_START,
                            .r_end = DEF_RE_END,
                            .i_start = DEF_IM_START,
                            .i_end = DEF_IM_END};
+// color pallete, controls colors of the mandelbrot set
 Color_Palette palette = {
     .red_bias = 50, .green_bias = 50, .blue_bias = 50, .contrast = 1};
 
@@ -66,8 +67,10 @@ void cleanup() {
   if (cxt.renderer) {
     SDL_DestroyRenderer(cxt.renderer);
   }
+  // free dynamic allocations (threads info and screen_buffer)
   free(screen_buffer);
   free(threads);
+  // get rid of the window
   SDL_Quit();
 }
 

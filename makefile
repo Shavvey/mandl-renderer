@@ -10,7 +10,7 @@ OBJS=src/main.o src/window.o src/complex.o src/mandl.o src/thread.o
 DEPS=src/window.h src/complex.h src/mandl.h src/thread.h
 
 # make dependencies to create the final executable
-all: mandl
+all: $(EXEC)
 
 # simplified rule that makes all object files from their header and source
 %.o: %.c $(DEPS)
@@ -19,5 +19,6 @@ all: mandl
 $(EXEC): $(OBJS)
 	$(CC) $(CFLAGS) $(SDL_CFLAGS) $(OBJS) -o $(EXEC) $(SDL_LDFLAGS) -lm
 
+# clean out the object files and the final executable
 clean:
-	rm mandl src/*.o
+	rm $(EXEC) src/*.o
