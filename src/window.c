@@ -123,12 +123,12 @@ void center(Plot_Window *p_win, int mouse_x, int mouse_y) {
 }
 
 void zoom(Plot_Window *p_win, int mouse_x, int mouse_y, double scalar) {
-  center(p_win, mouse_x, mouse_x);
   // scale the plot window via the scalar
   p_win->r_start *= scalar;
   p_win->r_end *= scalar;
   p_win->i_end *= scalar;
   p_win->i_start *= scalar;
+  center(p_win, mouse_x, mouse_x);
 }
 
 void animate() {
