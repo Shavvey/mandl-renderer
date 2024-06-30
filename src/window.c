@@ -53,12 +53,15 @@ SDL_Context get_context(SDL_Window *window) {
   return cxt;
 }
 
+// initialize the screen buffer, memory is stored on the heap so that it can be
+// acessed by child threads
 void init_screen() {
   screen_buffer = (uint32_t *)malloc(sizeof(uint32_t) * WIDTH * HEIGHT);
   // initializing each pixel stored in the buffer to be white
   memset(screen_buffer, 0xFFFFFFFF, WIDTH * HEIGHT * sizeof(uint32_t));
 }
 
+// function to handle cleanup of heap allocations and sdl objects on exit
 void cleanup() {
   // destroy SDL context (renderer and texture) if they exist
   if (cxt.texture) {
