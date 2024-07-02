@@ -5,11 +5,13 @@
 #define HEIGHT 1000
 #define NANO_PER_SEC 1000000000.0
 
+// struct to store to dimensions of the renderer window
 typedef struct Window_Dim {
   int width;
   int height;
 } Window_Dim;
 
+// struct to store current render and texture
 typedef struct SDL_Context {
   SDL_Renderer *renderer;
   SDL_Texture *texture;
@@ -23,6 +25,7 @@ typedef struct Plot_Window {
   double i_end;
 } Plot_Window;
 
+// color pallette determines iteration colors
 typedef struct Color_Palette {
   int red_bias;
   int blue_bias;
