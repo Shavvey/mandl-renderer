@@ -99,6 +99,26 @@ void handle_event() {
       zoom(&plot_window, mouse_x, mouse_y, ZOOMFAC);
       th_update();
       break;
+
+    case SDLK_r:
+      palette.red_bias += 10;
+      th_update();
+      break;
+
+    case SDLK_b:
+      palette.blue_bias += 10;
+      th_update();
+      break;
+
+    case SDLK_g:
+      palette.green_bias += 10;
+      th_update();
+      break;
+
+    case SDLK_c:
+      palette.contrast += 5;
+      th_update();
+      break;
     }
 
     break;
