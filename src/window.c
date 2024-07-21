@@ -157,6 +157,8 @@ void animate() {
   // create the mandelbrot set using default plot window P_WIN
   while (!window_exit) {
     // update texture with the new mandlbrot set computed
+    // NOTE: we should probably check to see if the screen buffer has been
+    // modified
     SDL_UpdateTexture(cxt.texture, NULL, screen_buffer,
                       DIM.width * sizeof(uint32_t));
 

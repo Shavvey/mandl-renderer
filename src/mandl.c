@@ -17,6 +17,7 @@ double lmap(double x, double input_start, double input_end, double output_start,
             double output_end) {
   if (input_end == input_start) {
 
+    // print out the error, a linear map doesn't work when their is no change
     fprintf(stderr, "Error in l_map(), Cannot Map a value when input_end == "
                     "input_start! \n");
     // just exit of out the program if the lmap can't be completed
@@ -45,14 +46,14 @@ uint32_t color_calc(double val, Color_Palette palette) {
   uint32_t alpha = 0xFF;
   // each hexadecimal digit represents a half-byte (4 bits)
   red = ((int)lmap(val, 1, 0, 0, palette.contrast * palette.red_bias))
-        << (6 * 4); // starts as 0x--FFFFFF
+        << (6 * 4); // starts at 0x--FFFFFF
   green = ((int)lmap(val, 1, 0, 0, palette.contrast * palette.green_bias))
           << (4 * 4); // 0xFF--FFFF
   blue = ((int)lmap(val, 1, 0, 0, palette.contrast * palette.blue_bias))
          << (2 * 4); // 0xFFFF--FF
   // alpha won't be map to the number of iterations
   alpha = 0xFF;
-
+  // return the rgba representation of the color
   return (red + green + blue + alpha);
 }
 

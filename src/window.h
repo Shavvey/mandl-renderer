@@ -1,8 +1,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 #include "sdl.h"
-#define WIDTH 1000
-#define HEIGHT 1000
+#define WIDTH 800
+#define HEIGHT 800
 #define NANO_PER_SEC 1000000000.0
 
 // struct to store to dimensions of the renderer window
