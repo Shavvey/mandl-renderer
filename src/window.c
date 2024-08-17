@@ -150,6 +150,14 @@ void zoom(Plot_Window *p_win, int mouse_x, int mouse_y, double scalar) {
   p_win->i_start *= scalar;
   center(p_win, mouse_x, mouse_x);
 }
+void draw() {
+  // clear current render
+  SDL_RenderClear(cxt.renderer);
+  // copy new texture over
+  SDL_RenderCopy(cxt.renderer, cxt.texture, NULL, NULL);
+  // present new render
+  SDL_RenderPresent(cxt.renderer);
+}
 
 void animate() {
   init_threads();
@@ -165,12 +173,7 @@ void animate() {
     while (SDL_PollEvent(&event)) {
       handle_event();
     }
-    // clear current render
-    SDL_RenderClear(cxt.renderer);
-    // copy new texture over
-    SDL_RenderCopy(cxt.renderer, cxt.texture, NULL, NULL);
-    // present new render
-    SDL_RenderPresent(cxt.renderer);
+    draw();
   }
   // cleanup process
   cleanup();
