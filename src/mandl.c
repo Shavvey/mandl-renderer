@@ -51,7 +51,7 @@ uint32_t color_calc(double val, Color_Palette palette) {
           << (4 * 4); // 0xFF--FFFF
   blue = ((int)lmap(val, 1, 0, 0, palette.contrast * palette.blue_bias))
          << (2 * 4); // 0xFFFF--FF
-  // alpha won't be map to the number of iterations
+  // alpha won't be mapped to the number of iterations
   alpha = 0xFF;
   // return the rgba representation of the color
   return (red + green + blue + alpha);
@@ -65,6 +65,8 @@ void mandl_update(Plot_Window p_win, Color_Palette palette) {
   // real coords of plot window
   double rstart = p_win.r_start;
   double rend = p_win.r_end;
+  // create normalized value, use the linear map to create color based on number
+  // of iterations
   double normalized_color = 0;
 
   for (int dy = 0; dy < DIM.height; dy++) {

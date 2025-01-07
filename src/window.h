@@ -15,6 +15,7 @@ typedef struct Window_Dim {
 typedef struct SDL_Context {
   SDL_Renderer *renderer;
   SDL_Texture *texture;
+  bool is_dirty;
 } SDL_Context;
 
 // determines what points we sample to construct set
