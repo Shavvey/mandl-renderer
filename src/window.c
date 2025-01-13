@@ -17,7 +17,8 @@ int mouse_x, mouse_y;
 Plot_Window plot_window = {.r_start = DEF_RE_START,
                            .r_end = DEF_RE_END,
                            .i_start = DEF_IM_START,
-                           .i_end = DEF_IM_END};
+                           .i_end = DEF_IM_END,
+                           .is_dirty = true};
 // color pallete, controls colors of the mandelbrot set
 Color_Palette palette = {
     .red_bias = 50, .green_bias = 50, .blue_bias = 50, .contrast = 1};
@@ -77,6 +78,11 @@ void cleanup() {
   SDL_Quit();
 }
 
+// dirty the sdl context, which will prompt a redraw
+void make_dirty(Plot_Window *win) { win->is_dirty = true; }
+// undirty the sdl context, meaning we will skip the redraw on the next tick
+void make_undirty(Plot_Window *win) { win->is_dirty = false; }
+
 void handle_event() {
   switch (event.type) {
   case SDL_QUIT:
@@ -88,6 +94,7 @@ void handle_event() {
     center(&plot_window, mouse_x, mouse_y);
     // update using new plot window
     th_update();
+    make_dirty(&plot_window);
     break;
 
   // if a key has been pressed down handle that key
@@ -98,26 +105,31 @@ void handle_event() {
       // printf("Zooming..\n");
       zoom(&plot_window, mouse_x, mouse_y, ZOOMFAC);
       th_update();
+      make_dirty(&plot_window);
       break;
 
     case SDLK_r:
       palette.red_bias += 10;
       th_update();
+      make_dirty(&plot_window);
       break;
 
     case SDLK_b:
       palette.blue_bias += 10;
       th_update();
+      make_dirty(&plot_window);
       break;
 
     case SDLK_g:
       palette.green_bias += 10;
       th_update();
+      make_dirty(&plot_window);
       break;
 
     case SDLK_c:
       palette.contrast += 5;
       th_update();
+      make_dirty(&plot_window);
       break;
     }
 
@@ -167,13 +179,18 @@ void animate() {
     // update texture with the new mandlbrot set computed
     // NOTE: we should probably check to see if the screen buffer has been
     // modified
-    SDL_UpdateTexture(cxt.texture, NULL, screen_buffer,
-                      DIM.width * sizeof(uint32_t));
+    if (plot_window.is_dirty) {
+      SDL_UpdateTexture(cxt.texture, NULL, screen_buffer,
+                        DIM.width * sizeof(uint32_t));
+      // copy texture present to the renderer
+      draw();
+      // reset dirty bit
+      make_undirty(&plot_window);
+    }
 
     while (SDL_PollEvent(&event)) {
       handle_event();
     }
-    draw();
   }
   // cleanup process
   cleanup();

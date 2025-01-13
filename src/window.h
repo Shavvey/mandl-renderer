@@ -1,6 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 #include "sdl.h"
+#include "stdbool.h"
 #define WIDTH 800
 #define HEIGHT 800
 #define NANO_PER_SEC 1000000000.0
@@ -15,7 +16,6 @@ typedef struct Window_Dim {
 typedef struct SDL_Context {
   SDL_Renderer *renderer;
   SDL_Texture *texture;
-  bool is_dirty;
 } SDL_Context;
 
 // determines what points we sample to construct set
@@ -24,6 +24,7 @@ typedef struct Plot_Window {
   double r_end;
   double i_start;
   double i_end;
+  bool is_dirty;
 } Plot_Window;
 
 // color pallette determines iteration colors
